@@ -4,165 +4,131 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LiquidMixer"
-
-          xmlns:component="clr-namespace:LiquidMixer.Vew.Component"
         mc:Ignorable="d"
-        Title="MainWindow" Height="600" Width="1000"
-        ResizeMode="NoResize">
-
-
-
+        Title="MainWindow" Height="600" Width="900"  ResizeMode="NoResize">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="8*"/>
             <RowDefinition Height="20*"/>
-            <RowDefinition Height="30*"/>
-
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
-            <!--Title-->
-            <Label Content="LIQUID MIXER"  FontWeight="UltraBold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30"/>
+            <Label Content="Liquid Mixer" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="40" FontWeight="Heavy"/>
         </Grid>
 
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="0"/>
+        <Border BorderBrush="Black" BorderThickness="1" Grid.Row="1"/>
 
-        <Grid Grid.Row="1" >
+        <!--User Input Setup Grid-->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Grid.Column="1"/>
+            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Grid.Column="3"/>
+
+            <!--Liquid List-->
+            <StackPanel Grid.Column="0">
+                <Label Content="Liquid A (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
+                <Label Content="Liquid B (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
+                <Label Content="Liquid C (mL)" Margin="5,5,5,0" FontSize="20" FontWeight="Medium"/>
+                <TextBlock Text="Notify Error Notify Error Notify Error Notify Error Notify Errorrror Notify ErrorNError Notify ErrorNotify ErrorNotify Error" MaxHeight="80" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="WrapWithOverflow" />
+            </StackPanel>
+
+
+            <!--Liquid User Input Value-->
+            <StackPanel Grid.Column="1">
+                <TextBox Width="120" Margin="10,12,7,5" FontSize="20"/>
+                <TextBox Width="120" Margin="10,12,7,5"  FontSize="20"/>
+                <TextBox Width="120" Margin="10,12,7,5"  FontSize="20"/>
+            </StackPanel>
+
+            <!--Mode And Time Label-->
+            <StackPanel Grid.Column="2">
+                <Label Content="Mode" FontSize="15" FontWeight="Bold" Margin="10,30,10,30"/>
+                <Label Content="Time (s)" FontSize="15" FontWeight="Bold" Margin="10,25,10,50"/>
+            </StackPanel>
+            
+            <!--Mode and Time Value-->
+            <StackPanel Grid.Column="3">
+                <ComboBox Margin="10,30,10,20" FontSize="20"/>
+                <TextBox Margin="10,30,10,0" FontSize="20"/>
+                <TextBlock Text="Notify Error Notify Error Notify Error Notify Error Notify Errorrror Notify ErrorNError Notify ErrorNotify ErrorNotify Error" MaxHeight="70" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="Wrap" />
+            </StackPanel>
+            
+            <!--Run And Abort Button-->
+            <StackPanel Grid.Column="4">
+                <Button Content="START" Width="150" Height="50" Margin="10,20,10,20"/>
+                <Button Content="ABORT" Width="150" Height="50" Margin="10,20,10,20"/>
+            </StackPanel>
+
+        </Grid>
+
+        <!--Inventory and Log Grid Title-->
+        <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
-                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="0"/>
+            <Border BorderBrush="Black" BorderThickness="1" Grid.Column="1"/>
 
-          
-            <Grid Grid.Row ="0" Grid.ColumnSpan="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition Width="5*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- LIQUID LIST-->
-                <component:LiquidList/>
-                <!--LIQUID VALUE-->
-                <StackPanel HorizontalAlignment="Left" Grid.Column="1"  >
-                    <TextBox  Margin="0,5,0,5" Width="130" HorizontalAlignment="Left"/>
-                    <TextBox Margin="0,5,0,5" Width="130" HorizontalAlignment="Left"/>
-                    <TextBox  Margin="0,5,0,5" Width="130" HorizontalAlignment="Left"/>
-
-                </StackPanel>
-
-
-
-                <StackPanel Grid.Column="2">
-                    <Label Content="Mode" Margin="0,0,0,20"/>
-                    <Label Content="Time(s)"/>
-
-                </StackPanel>
-
-                <StackPanel Grid.Column="3">
-                    <Label Content="FAST" Margin="0,0,0,22"/>
-                    <TextBox Width="80" HorizontalAlignment="Left"/>
-
-                </StackPanel>
-                <StackPanel Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Top">
-                    <Button Content="START" Width="50" Height="50"  Margin="5"/>
-                    <Button Content="ABORT" Width="50" Height="50" Margin="5"/>
-
-                </StackPanel>
-
-
-
-                <StackPanel Grid.Column="5" Orientation="Horizontal" VerticalAlignment="Top">
-                    <TextBlock Text="STAUS" Background="Green" Width="150" Height="50" TextAlignment="Center" />
-
-
-                </StackPanel>
-
-
-            </Grid>
-
-
-
-
+            <Label Content="Inventory" FontWeight="UltraBold" FontSize="15" Margin="10,0,0,0" Grid.Column="0"/>
+            <Label Content="Process Log" FontWeight="UltraBold" FontSize="15" Margin="10,0,0,0" Grid.Column="1"/>
         </Grid>
 
-        <Border BorderThickness="2,2,2,2" BorderBrush="Black" Grid.Row="2" >
-            <Grid Grid.Row="2">
 
+        <!--Inventory And Log Grid-->
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="1,0,1,1" Grid.Row="3"/>
+            <Border BorderBrush="Black" BorderThickness="1,0,1,1" Grid.Row="3" Grid.Column="1"/>
+            
+            <!--Inventory Grid-->
+            <Grid Grid.Row="3" Grid.Column="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="4*"/>
-                  
-                </Grid.RowDefinitions>
+                <!--Liquid List-->
+                <StackPanel Grid.Column="0">
+                    <Label Content="Liquid A (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
+                    <Label Content="Liquid B (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
+                    <Label Content="Liquid C (mL)" Margin="5,5,5,0" FontSize="20" FontWeight="Medium"/>
+                    <TextBlock Text="Notify Error Notify Error Notify Error Notify Error Notify Errorrror Notify ErrorNError Notify ErrorNotify ErrorNotify Error" MaxHeight="80" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="WrapWithOverflow" />
+                </StackPanel>
 
-
-                <Border BorderThickness="0,0,2,0" BorderBrush="Black" Grid.Column="0" Grid.Row="0" Grid.RowSpan="3">
-                </Border>
-
-                <Grid Grid.Column="0" Grid.Row="0">
-                    <Label Content="INVENTORY" Grid.Row="0"/>
-
-                </Grid>
+                <!--Liquid User Input Value-->
+                <StackPanel Grid.Column="1">
+                    <TextBox Width="110" Margin="10,12,10,5"  FontSize="20"/>
+                    <TextBox Width="110" Margin="10,12,10,5"  FontSize="20"/>
+                    <TextBox Width="110" Margin="10,12,10,5"  FontSize="20"/>
+                </StackPanel>
                 
-                <Grid Grid.Column="0" Grid.Row="1">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition  Width="3*"/>
-                        <ColumnDefinition Width="5*"/>
-                        <ColumnDefinition Width="5*"/>
-                    </Grid.ColumnDefinitions>
-                    
-                    <component:LiquidList Grid.Column="0"/>
-                    <!--LIQUID VALUE-->
-                    <StackPanel HorizontalAlignment="Left" Grid.Column="1"  >
-                        <TextBox  Margin="0,5,0,5" Width="130" HorizontalAlignment="Left"/>
-                        <TextBox Margin="0,5,0,5" Width="130" HorizontalAlignment="Left"/>
-                        <TextBox  Margin="0,5,0,5" Width="130" HorizontalAlignment="Left"/>
-
-                    </StackPanel>
-
-
-                  
-                        
-                            <Button Content="Update" Width="150" Height="70" Grid.Column="2" VerticalAlignment="Top"/>
-
-                     
-
-
+                <!--Update Button-->
+                <Button Grid.Column="2" Content="UPDATE" Width="100" Height="70" VerticalAlignment="Top" Margin="0,35,0,0"/>
 
 
                 </Grid>
-                
 
 
-             
-                <Grid Grid.Column="1">
-
-                        <Label Content="LOG" Grid.Row="0" Grid.Column="1"/>
-
-                    </Grid>
-              
-
-
-                
-
-               
+            <!--Process Log Grid-->
+            <Grid Grid.Row="3" Grid.Column="1" >
+                <ListBox HorizontalAlignment="Left" FontSize="15" Width="450"/>
             </Grid>
 
-        </Border>
-
-
-
-
-
-
+        </Grid>
 
 
 
