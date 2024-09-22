@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:LiquidMixer"
+        xmlns:local="clr-namespace:LiquidMixer.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="900"  ResizeMode="NoResize">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="8*"/>
@@ -35,18 +39,19 @@
 
             <!--Liquid List-->
             <StackPanel Grid.Column="0">
-                <Label Content="Liquid A (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
+                <Label Content="Liquid A (mL)" Margin="5" FontSize="20" FontWeight="Medium" />
                 <Label Content="Liquid B (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
                 <Label Content="Liquid C (mL)" Margin="5,5,5,0" FontSize="20" FontWeight="Medium"/>
-                <TextBlock Text="Notify Error Notify Error Notify Error Notify Error Notify Errorrror Notify ErrorNError Notify ErrorNotify ErrorNotify Error" MaxHeight="80" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="WrapWithOverflow" />
+                
             </StackPanel>
 
 
             <!--Liquid User Input Value-->
             <StackPanel Grid.Column="1">
-                <TextBox Width="120" Margin="10,12,7,5" FontSize="20"/>
-                <TextBox Width="120" Margin="10,12,7,5"  FontSize="20"/>
-                <TextBox Width="120" Margin="10,12,7,5"  FontSize="20"/>
+                <TextBox x:Name="tb_liquidA" Width="120" Margin="10,12,7,5" FontSize="20" Text="{Binding InputLiquidA, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <TextBox x:Name="tb_liquidB" Width="120" Margin="10,12,7,5"  FontSize="20" Text="{Binding InputLiquidB, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                <TextBox x:Name="tb_liquidC" Width="120" Margin="10,12,7,5"  FontSize="20" Text="{Binding InputLiquidC, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+                <TextBlock Text="{Binding InputLiquidError, UpdateSourceTrigger=PropertyChanged , Mode=OneWay}"  MaxHeight="80" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="WrapWithOverflow" />
             </StackPanel>
 
             <!--Mode And Time Label-->
@@ -57,14 +62,14 @@
             
             <!--Mode and Time Value-->
             <StackPanel Grid.Column="3">
-                <ComboBox Margin="10,30,10,20" FontSize="20"/>
-                <TextBox Margin="10,30,10,0" FontSize="20"/>
-                <TextBlock Text="Notify Error Notify Error Notify Error Notify Error Notify Errorrror Notify ErrorNError Notify ErrorNotify ErrorNotify Error" MaxHeight="70" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="Wrap" />
+                <ComboBox ItemsSource="{Binding MixingModes}" SelectedItem="{Binding SelectedMode}" Margin="10,30,10,20" FontSize="20"/>
+                <TextBox Text="{Binding Time, UpdateSourceTrigger=PropertyChanged , Mode=TwoWay}" Margin="10,30,10,0" FontSize="20"/>
+                <TextBlock Text="{Binding InputTimeError , UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" MaxHeight="70" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="Wrap" />
             </StackPanel>
             
             <!--Run And Abort Button-->
             <StackPanel Grid.Column="4">
-                <Button Content="START" Width="150" Height="50" Margin="10,20,10,20"/>
+                <Button Content="START" Command="{Binding StartCommand}" Width="150" Height="50" Margin="10,20,10,20"/>
                 <Button Content="ABORT" Width="150" Height="50" Margin="10,20,10,20"/>
             </StackPanel>
 
