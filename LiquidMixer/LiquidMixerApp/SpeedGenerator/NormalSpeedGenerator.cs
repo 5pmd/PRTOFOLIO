@@ -9,7 +9,7 @@ namespace LiquidMixerApp.SpeedStrategy
     public class NormalSpeedGenerator : SpeedGeneratorBase
     {
 
-        private readonly int _speed = 100;
+        private readonly int _speed = 200;
         
         public override Task GenerateSpeedAsync()
         {

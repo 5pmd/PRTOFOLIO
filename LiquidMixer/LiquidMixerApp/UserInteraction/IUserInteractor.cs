@@ -1,4 +1,4 @@
-﻿namespace LiquidMixerApp
+﻿namespace LiquidMixerApp.UserInteraction
 {
     public interface IUserInteractor
     {

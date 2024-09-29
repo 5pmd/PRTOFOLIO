@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace LiquidMixer.Vew.Component
+namespace LiquidMixerGUI.Vew.Component
 {
     /// <summary>
     /// Interaction logic for LiquidList.xaml

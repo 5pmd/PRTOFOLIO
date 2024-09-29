@@ -3,6 +3,7 @@ using LiquidMixerApp.Liquids;
 using LiquidMixerApp.Mixer;
 using LiquidMixerApp.SpeedStrategy;
 using LiquidMixerApp.Timer;
+using LiquidMixerApp.UserInteraction;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +18,15 @@ namespace LiquidMixerApp
         private readonly IMixer _mixer;
         private readonly ILiquidInventory _inventory;
         private readonly SpeedGeneratorBase _speedGenerator;
-        private readonly IUserInteractor _userInteractor;
         private readonly TimeHandlerBase _timer;
         private readonly ILogger _logger;
         private readonly int duration;
 
-        public LiquidMixer(IMixer mixer, ILiquidInventory liquidInventory, SpeedGeneratorBase speedGenerator, IUserInteractor userInteractor, ILogger logger, TimeHandlerBase timer)
+        public LiquidMixer(IMixer mixer, ILiquidInventory liquidInventory, SpeedGeneratorBase speedGenerator, TimeHandlerBase timer, ILogger logger)
         {
             _mixer = mixer;
             _inventory = liquidInventory;
-            _speedGenerator = speedGenerator;
-            _userInteractor = userInteractor;
+            _speedGenerator = speedGenerator;         
             _logger = logger;
             _timer = timer;
         }
@@ -37,11 +36,11 @@ namespace LiquidMixerApp
         {
             if (!await IsLiquidsAvailable(liquids))
             {
-                _userInteractor.Write("Liquids not available !");
+                _logger.Write("Liquids not available !");
             }
             try
             {
-                _userInteractor.Write("Start has been Press");
+                _logger.Write("Start has been Press");
                 await _inventory.TakeAsync(liquids);
                 _speedGenerator.SpeedGenerated += _mixer.SetSpeed;
                 var speedGenerateTask =_speedGenerator.GenerateSpeedAsync();
@@ -67,7 +66,7 @@ namespace LiquidMixerApp
         public void Stop()
         {
           
-            _userInteractor.Write("Stop the Application");
+            _logger.Write("Stop the Application");
         }
 
 

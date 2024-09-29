@@ -2,21 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace LiquidMixerApp.SpeedGenerator
 {
-    public class FastSpeedGenerator : SpeedGeneratorBase
+    public class SlowSpeedGenerator : SpeedGeneratorBase
     {
-        private readonly int _speed = 500;
-             
+        private readonly int _speed = 50;
         public override Task GenerateSpeedAsync()
         {
             return Task.FromResult(_speed);
         }
-
-       
     }
 }

@@ -1,4 +1,4 @@
-﻿using LiquidMixerApp;
+﻿using LiquidMixerApp.UserInteraction;
 
 public class ConsoleUserInteractor : IUserInteractor
 {

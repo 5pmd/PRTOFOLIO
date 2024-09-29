@@ -10,7 +10,7 @@ using LiquidMixerApp.Timer;
 Console.WriteLine("Start");
 var mixer = new BasicMixer();
 var speedGenerator = new IncrementalSpeedGenerator(0,100,1000);
-var inventory = new LocalInventory();
+var inventory = new LocalLiquidInventory();
 var userInteractor = new ConsoleUserInteractor();
 var logger = new LocalLogger();
 var timeHandler = new TimeHandler();
@@ -25,12 +25,18 @@ Task.WaitAll(addLiquidTask);
 
 
 
-var liquidMixer = new LiquidMixer(mixer,inventory,speedGenerator, userInteractor, logger, timeHandler);
+var liquidMixer = new LiquidMixer(mixer,inventory,speedGenerator, timeHandler, logger);
 
 
-var startTask = liquidMixer.StartAsync(10000,  liquidC );
+var startTask = liquidMixer.StartAsync(10000,  liquidA, liquidB );
 
-Console.WriteLine("Do something else");
+
+while (true)
+{
+    Thread.Sleep(1000);
+    Console.WriteLine("Do something else");
+    if (startTask.IsCompletedSuccessfully) break;
+}
 
 Task.WaitAll(startTask);
 

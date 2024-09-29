@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LiquidMixerApp.Inventory
 {
-    public class LocalInventory : ILiquidInventory
+    public class LocalLiquidInventory : ILiquidInventory
     {
 
         private HashSet<Liquid> _liquids = new();
