@@ -1,22 +1,22 @@
-﻿using LiquidMixerGUI.Services.Logger;
+﻿using LiquidMixerApp.Model.Logger;
 using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LiquidMixerGUI.Model.Inventory
+namespace LiquidMixerApp.Model.Inventory
 {
     public class LocalLiquidInventory : ILiquidInventory
     {
-        private readonly Dictionary<string, Liquid> _liquids;
+        private readonly Dictionary<string, ILiquid> _liquids;
         private readonly SemaphoreSlim _semaphoreSlim = new SemaphoreSlim(1, 1);
 
         public LocalLiquidInventory()
         {
-            _liquids = new Dictionary<string, Liquid>();
+            _liquids = new Dictionary<string, ILiquid>();
         }
 
-        public async Task AddAsync(IEnumerable<Liquid> liquids)
+        public async Task AddAsync(IEnumerable<ILiquid> liquids)
         {
             await _semaphoreSlim.WaitAsync(); 
             try
@@ -42,7 +42,7 @@ namespace LiquidMixerGUI.Model.Inventory
             }
         }
 
-        public async Task TakeAsync(IEnumerable<Liquid> liquids, CancellationToken cancellation)
+        public async Task TakeAsync(IEnumerable<ILiquid> liquids, CancellationToken cancellation)
         {
             cancellation.ThrowIfCancellationRequested();
 
@@ -52,7 +52,7 @@ namespace LiquidMixerGUI.Model.Inventory
                 foreach (var liquid in liquids)
                 {
                     if (!await IsAvailableAsync(liquid, cancellation))
-                        throw new ArgumentException($"{liquid.Name} doesn't exist or isn't available in Inventory");
+                        throw new ArgumentException($"{liquid.Name} {liquid.Volume} mL doesn't available in Inventory");
                 }
 
                 foreach (var liquid in liquids)
@@ -75,7 +75,7 @@ namespace LiquidMixerGUI.Model.Inventory
             }
         }
 
-        private async Task<bool> IsAvailableAsync(Liquid liquid, CancellationToken cancellation)
+        private async Task<bool> IsAvailableAsync(ILiquid liquid, CancellationToken cancellation)
         {
             LoggerService.Instance.Log($"Check if {liquid.Name} {liquid.Volume}mL available in Inventory");
             if (liquid.Volume == 0) return true;
@@ -84,7 +84,7 @@ namespace LiquidMixerGUI.Model.Inventory
             return availableVolume >= liquid.Volume;
         }
 
-        private async Task<int> GetVolumeAsync(Liquid liquid, CancellationToken cancellation)
+        private async Task<int> GetVolumeAsync(ILiquid liquid, CancellationToken cancellation)
         {
             await Task.Delay(1000, cancellation);
             if (_liquids.TryGetValue(liquid.Name, out var selectedLiquid))
@@ -94,5 +94,7 @@ namespace LiquidMixerGUI.Model.Inventory
 
             throw new ArgumentException($"{liquid.Name} doesn't exist in inventory");
         }
+
+      
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace LiquidMixerGUI.Services.Command
+namespace LiquidMixerApp.Services.Command
 {
     public class RelayCommand : ICommand
     {

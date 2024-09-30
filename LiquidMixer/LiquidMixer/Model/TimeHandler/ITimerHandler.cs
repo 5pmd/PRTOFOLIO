@@ -1,4 +1,4 @@
-﻿namespace LiquidMixerGUI.Model.TimeHandler
+﻿namespace LiquidMixerApp.Model.TimeHandler
 {
     public interface  ITimerHandler
     {

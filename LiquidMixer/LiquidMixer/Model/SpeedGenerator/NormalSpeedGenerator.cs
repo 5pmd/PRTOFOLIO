@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LiquidMixerGUI.Model.SpeedGenerator
+namespace LiquidMixerApp.Model.SpeedGenerator
 {
     public class NormalSpeedGenerator : ISpeedGenerator
     {

@@ -1,9 +1,9 @@
-﻿using LiquidMixerGUI.Services.Logger;
+﻿using LiquidMixerApp.Model.Logger;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LiquidMixerGUI.Model.SpeedGenerator
+namespace LiquidMixerApp.Model.SpeedGenerator
 {
     public class IncrementalSpeedGenerator : ISpeedGenerator
     {

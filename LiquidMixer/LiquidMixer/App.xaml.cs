@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace LiquidMixerGUI
+namespace LiquidMixerApp
 {
     /// <summary>
     /// Interaction logic for App.xaml

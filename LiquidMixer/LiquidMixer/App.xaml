@@ -1,7 +1,7 @@
-﻿<Application x:Class="LiquidMixerGUI.App"
+﻿<Application x:Class="LiquidMixerApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LiquidMixerGUI"
+             xmlns:local="clr-namespace:LiquidMixerApp"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

@@ -1,4 +1,4 @@
-﻿namespace LiquidMixerGUI.Model.Mixer
+﻿namespace LiquidMixerApp.Model.Mixer
 {
     public interface IMixer
     {

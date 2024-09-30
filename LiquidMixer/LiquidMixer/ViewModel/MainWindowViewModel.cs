@@ -1,10 +1,10 @@
-﻿using LiquidMixerGUI.Model;
-using LiquidMixerGUI.Model.Inventory;
-using LiquidMixerGUI.Model.Mixer;
-using LiquidMixerGUI.Model.SpeedGenerator;
-using LiquidMixerGUI.Model.TimeHandler;
-using LiquidMixerGUI.Services.Command;
-using LiquidMixerGUI.Services.Logger;
+﻿using LiquidMixerApp.Model;
+using LiquidMixerApp.Model.Inventory;
+using LiquidMixerApp.Model.Logger;
+using LiquidMixerApp.Model.Mixer;
+using LiquidMixerApp.Model.SpeedGenerator;
+using LiquidMixerApp.Model.TimeHandler;
+using LiquidMixerApp.Services.Command;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
-namespace LiquidMixerGUI.ViewModel
+namespace LiquidMixerApp.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
@@ -68,7 +68,6 @@ namespace LiquidMixerGUI.ViewModel
 
             LogEntries = new ObservableCollection<string>();
             LoggerService.Instance.OnLogGenerated += AddLog;
-
 
             StartCommand = new AsyncRelayCommand(exe => StartAsync(), canExe => CanStart());
             StopCommand = new RelayCommand(exe => Stop(), canExe => CanStop());

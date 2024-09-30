@@ -1,4 +1,4 @@
-﻿using LiquidMixerGUI.Model.SpeedGenerator;
+﻿using LiquidMixerApp.Model.SpeedGenerator;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LiquidMixerGUI.Model.SpeedGenerator
+namespace LiquidMixerApp.Model.SpeedGenerator
 {
     class SpeedGeneratorFactory
     {

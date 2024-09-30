@@ -1,9 +1,9 @@
-﻿using LiquidMixerGUI.Services.Logger;
+﻿using LiquidMixerApp.Model.Logger;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LiquidMixerGUI.Model.TimeHandler
+namespace LiquidMixerApp.Model.TimeHandler
 {
     public class DelayTimeHandler : ITimerHandler
     {
@@ -17,12 +17,7 @@ namespace LiquidMixerGUI.Model.TimeHandler
             try
             {
                 await Task.Delay(duration , cancellation);  
-            }
-            catch (OperationCanceledException)
-            {                      
-                throw;
-            }   
-            
+            } 
             finally 
             {
                 OnStopped?.Invoke();

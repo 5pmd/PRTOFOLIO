@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LiquidMixerGUI.Model
+namespace LiquidMixerApp.Model
 {
-    public class Liquid
+    public class Liquid : ILiquid
     {
 
         private int _volume;
@@ -18,12 +18,12 @@ namespace LiquidMixerGUI.Model
             get => _volume;
             set
             {
-                if (value < 0) throw new ArgumentOutOfRangeException($"Volume must bigger than 0");
+                if (value < 0) throw new ArgumentException($"Volume must bigger than 0");
                 _volume = value;
             }
         }
         public string Name => _name;
-     
+
         public Liquid(string name, int volume = 0)
         {
             if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("name can't be Null or WhiteSpace");
@@ -31,15 +31,8 @@ namespace LiquidMixerGUI.Model
             Volume = volume;
         }
 
-        public override bool Equals(object? obj)
-        {
-            var objAsLiquid = obj as Liquid;
-            if (objAsLiquid == null) return false;
+        
 
-            return objAsLiquid.Name == _name;
-        }
-
-        public override int GetHashCode() => _name.GetHashCode();
 
     }
 }

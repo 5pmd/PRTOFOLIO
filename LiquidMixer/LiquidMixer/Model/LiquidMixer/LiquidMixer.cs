@@ -1,9 +1,9 @@
 ﻿
-using LiquidMixerGUI.Model.Inventory;
-using LiquidMixerGUI.Model.Mixer;
-using LiquidMixerGUI.Model.SpeedGenerator;
-using LiquidMixerGUI.Model.TimeHandler;
-using LiquidMixerGUI.Services.Logger;
+using LiquidMixerApp.Model.Inventory;
+using LiquidMixerApp.Model.Logger;
+using LiquidMixerApp.Model.Mixer;
+using LiquidMixerApp.Model.SpeedGenerator;
+using LiquidMixerApp.Model.TimeHandler;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Animation;
 
-namespace LiquidMixerGUI.Model;
+namespace LiquidMixerApp.Model;
 
-public class LiquidMixer
+public class LiquidMixer : ILiquidMixer
 {
 
     private readonly IMixer _mixer;
@@ -37,7 +37,7 @@ public class LiquidMixer
 
         try
         {
-      
+
             if (_speedGenerator is not null)
             {
                 _timer.OnStopped += _speedGenerator.Stop;
@@ -54,7 +54,7 @@ public class LiquidMixer
         finally
         {
             _timer.OnStopped -= _mixer.Stop;
-           
+
             if (_speedGenerator is not null)
             {
                 _timer.OnStopped -= _speedGenerator.Stop;
@@ -63,7 +63,7 @@ public class LiquidMixer
 
     }
 
-    public async Task StartAsync(IEnumerable<Liquid> liquids,  int duration, ISpeedGenerator speedGenerator, CancellationToken cancellation)
+    public async Task StartAsync(IEnumerable<Liquid> liquids, int duration, ISpeedGenerator speedGenerator, CancellationToken cancellation)
     {
         try
         {
@@ -104,7 +104,7 @@ public class LiquidMixer
 
     }
 
-    private async Task SetMixerSpeed( ISpeedGenerator speedGenerator, CancellationToken cancellation)
+    private async Task SetMixerSpeed(ISpeedGenerator speedGenerator, CancellationToken cancellation)
     {
 
 

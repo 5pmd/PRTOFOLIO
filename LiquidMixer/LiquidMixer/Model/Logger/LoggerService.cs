@@ -1,16 +1,16 @@
-﻿using LiquidMixerGUI.ViewModel;
+﻿using LiquidMixerApp.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LiquidMixerGUI.Services.Logger
+namespace LiquidMixerApp.Model.Logger
 {
-    public class LoggerService
+    public class LoggerService : ILoggerService
     {
         private static LoggerService? _instance;
-        public static LoggerService Instance => _instance ??= new LoggerService();  
+        public static LoggerService Instance => _instance ??= new LoggerService();
         private LoggerService() { }
 
 

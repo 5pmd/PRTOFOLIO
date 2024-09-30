@@ -1,12 +1,13 @@
-﻿using LiquidMixerGUI.Services.Logger;
+﻿using LiquidMixerApp.Model.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 
-namespace LiquidMixerGUI.Model.Mixer
+namespace LiquidMixerApp.Model.Mixer
 {
     public class BasicMixer : IMixer
     {
@@ -16,6 +17,7 @@ namespace LiquidMixerGUI.Model.Mixer
 
         public void SetSpeed(int speed)
         {
+            if (speed < 0) throw new ArgumentException("Speed must positive int");
             _speed = speed;           
             LoggerService.Instance.Log($"Set Speed for {speed} rpm");
         }

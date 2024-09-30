@@ -1,4 +1,4 @@
-﻿using LiquidMixerGUI.Services.Logger;
+﻿using LiquidMixerApp.Model.Logger;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace LiquidMixerGUI.Services.Command
+namespace LiquidMixerApp.Services.Command
 {
     public class AsyncRelayCommand : ICommand
     {

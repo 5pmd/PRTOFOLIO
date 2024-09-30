@@ -1,4 +1,4 @@
-﻿using LiquidMixerGUI.Services.Logger;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Animation;
 
-namespace LiquidMixerGUI.Model.SpeedGenerator
+namespace LiquidMixerApp.Model.SpeedGenerator
 {
     public interface ISpeedGenerator
     {
