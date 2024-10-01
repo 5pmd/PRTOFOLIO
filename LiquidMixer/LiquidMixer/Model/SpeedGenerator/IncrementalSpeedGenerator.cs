@@ -53,32 +53,21 @@ namespace LiquidMixerApp.Model.SpeedGenerator
         {
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
 
-            try
-            {
-                for (var currentSpeed = _initialSpeed; currentSpeed <= _endSpeed; currentSpeed += _step)
-                {
-                    _cancellationTokenSource.Token.ThrowIfCancellationRequested(); 
 
-                    await Task.Delay(_delay, _cancellationTokenSource.Token);
-                    OnSpeedGenerated?.Invoke(currentSpeed);
-                }
-            }
-            catch (TaskCanceledException)
+            for (var currentSpeed = _initialSpeed; currentSpeed <= _endSpeed; currentSpeed += _step)
             {
-              
-                LoggerService.Instance.Log("Speed generation was cancelled.");
+                _cancellationTokenSource.Token.ThrowIfCancellationRequested();
+
+                await Task.Delay(_delay, _cancellationTokenSource.Token);
+                OnSpeedGenerated?.Invoke(currentSpeed);
             }
-            finally
-            {
-                
-                _cancellationTokenSource.Dispose();
-                _cancellationTokenSource = null;
-            }
+
+
         }
 
         public void Stop()
-        {           
-            _cancellationTokenSource?.Cancel(); 
+        {
+            _cancellationTokenSource?.Cancel();
         }
     }
 }

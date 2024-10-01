@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using LiquidMixerApp.Model;
+using LiquidMixerApp.Model.SpeedGenerator;
+using LiquidMixerApp.ViewModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,10 +19,18 @@ namespace LiquidMixerApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+
         public MainWindow()
         {
             InitializeComponent();
+            var liquidAToMix = new Liquid("Liquid A");
+            var liquidBToMix = new Liquid("Liquid B");
+            var liquidCToMix = new Liquid("Liquid C");
+            var liquidAToAdd = new Liquid("Liquid A");
+            var liquidBToAdd = new Liquid("Liquid B");
+            var liquidCToAdd = new Liquid("Liquid C");
+            var speedGeneratorFactory = new SpeedGeneratorFactory();
+            this.DataContext = new MainWindowViewModel(liquidAToMix, liquidBToMix, liquidCToMix, liquidAToAdd, liquidBToAdd, liquidCToAdd, speedGeneratorFactory);
         }
     }
 }

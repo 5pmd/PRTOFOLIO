@@ -9,7 +9,7 @@ using LiquidMixerApp.Model;
 using System.Timers;
 using NUnit.Framework.Legacy;
 
-namespace LiquidMixerApp.Tests
+namespace LiquidMixerAppTest.ModelTests
 {
     [TestFixture]
     public class LiquidInventoryTests
@@ -98,7 +98,7 @@ namespace LiquidMixerApp.Tests
             cancellationTokenSource.Cancel();
             await _inventory.AddAsync(liquids);
 
-            Assert.ThrowsAsync<OperationCanceledException>(()=> _inventory.TakeAsync(liquidsToTake, cancellationTokenSource.Token));
+            Assert.ThrowsAsync<OperationCanceledException>(() => _inventory.TakeAsync(liquidsToTake, cancellationTokenSource.Token));
 
         }
 

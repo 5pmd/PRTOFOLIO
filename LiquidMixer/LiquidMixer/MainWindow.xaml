@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:LiquidMixerApp.ViewModel"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="900"  ResizeMode="NoResize">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <local:MainWindowViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     
     <Grid>
         <Grid.RowDefinitions>

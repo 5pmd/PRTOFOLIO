@@ -8,7 +8,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LiquidMixerAppTest
+namespace LiquidMixerAppTest.ModelTests
 {
     [TestFixture]
     internal class DelayTimeHandlerTests
@@ -23,23 +23,23 @@ namespace LiquidMixerAppTest
         [Test]
         public async Task Start_ShouldTriggerOnStopped_WhenDurationCompletes()
         {
-            
+
             bool onStoppedCalled = false;
             _timerHandler.OnStopped += () => onStoppedCalled = true;
-          
+
             await _timerHandler.Start(100, CancellationToken.None);
-        
-            ClassicAssert.IsTrue(onStoppedCalled);         
+
+            ClassicAssert.IsTrue(onStoppedCalled);
         }
 
         [Test]
         public void Start_ShouldThrowOperationCanceledException_WhenCancellationIsRequested()
         {
-           
-            var cancellationTokenSource = new CancellationTokenSource();
-            cancellationTokenSource.Cancel(); 
 
-            
+            var cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.Cancel();
+
+
             Assert.ThrowsAsync<OperationCanceledException>(async () =>
                 await _timerHandler.Start(1000, cancellationTokenSource.Token));
         }
@@ -47,7 +47,7 @@ namespace LiquidMixerAppTest
         [Test]
         public async Task Start_ShouldTriggerOnStopped_WhenCancelled()
         {
-          
+
             bool onStoppedCalled = false;
             _timerHandler.OnStopped += () => onStoppedCalled = true;
 

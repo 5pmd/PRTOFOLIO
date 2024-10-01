@@ -63,11 +63,9 @@ public class LiquidMixer : ILiquidMixer
 
     }
 
-    public async Task StartAsync(IEnumerable<Liquid> liquids, int duration, ISpeedGenerator speedGenerator, CancellationToken cancellation)
+    public async Task StartAsync(IEnumerable<ILiquid> liquids, int duration, ISpeedGenerator speedGenerator, CancellationToken cancellation)
     {
-        try
-        {
-
+       
             _speedGenerator = speedGenerator;
             LoggerService.Instance.Log($"Liquid Mixer Started");
 
@@ -76,20 +74,21 @@ public class LiquidMixer : ILiquidMixer
             StartMixer();
             var setTimerHandlerTask = SetTimerHandler(duration, cancellation);
 
-            await Task.WhenAll(setMixerSpeedTask, setTimerHandlerTask);
-            LoggerService.Instance.Log($"Liquid Mixer ");
-        }
-
-        finally
+        try
         {
-            LoggerService.Instance.Log($"Liquid Mixer Finished");
-
+            await Task.WhenAll(setMixerSpeedTask, setTimerHandlerTask);
+            LoggerService.Instance.Log($"Liquid Mixer Successfully finished");
         }
+        catch (Exception ex)
+        {
+           throw new InvalidOperationException($"Liquid Mixer Not Successfully finished. {ex.Message}");
+        }
+             
 
     }
 
 
-    private async Task TakeLiquidsFromInventoryAsync(IEnumerable<Liquid> liquids, CancellationToken cancellation)
+    private async Task TakeLiquidsFromInventoryAsync(IEnumerable<ILiquid> liquids, CancellationToken cancellation)
     {
         try
         {
@@ -129,7 +128,7 @@ public class LiquidMixer : ILiquidMixer
         _mixer.Start();
     }
 
-    public async Task AddLiquidsToInventory(params Liquid[] liquids)
+    public async Task AddLiquidsToInventory(IEnumerable<ILiquid> liquids)
     {
         await _inventory.AddAsync(liquids);
     }

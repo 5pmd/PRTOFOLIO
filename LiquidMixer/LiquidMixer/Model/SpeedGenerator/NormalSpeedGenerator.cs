@@ -17,9 +17,11 @@ namespace LiquidMixerApp.Model.SpeedGenerator
         {
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
 
+
             cancellation.ThrowIfCancellationRequested();
-            await Task.FromResult(_speed);
-            OnSpeedGenerated?.Invoke(_speed); 
+            await Task.Delay(500);
+            OnSpeedGenerated?.Invoke(_speed);
+
         }
 
         public void Stop()

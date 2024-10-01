@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LiquidMixerAppTest
+namespace LiquidMixerAppTest.ModelTests
 {
     [TestFixture]
     public class BasicMixerTests

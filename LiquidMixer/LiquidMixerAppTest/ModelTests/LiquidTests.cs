@@ -8,19 +8,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LiquidMixerAppTest
+namespace LiquidMixerAppTest.ModelTests
 {
     [TestFixture]
     public class LiquidTests
     {
         [Test]
-       public void LiquidInstance_ShallReturnTheCorrectVolume()
+        public void LiquidInstance_ShallReturnTheCorrectVolume()
         {
             var liquid = new Liquid("Water", 100);
 
             var result = liquid.Volume;
 
-           ClassicAssert.AreEqual(100, result);
+            ClassicAssert.AreEqual(100, result);
         }
 
 
@@ -46,7 +46,7 @@ namespace LiquidMixerAppTest
         {
             Assert.Throws<ArgumentException>(() => new Liquid(" ", 100));
         }
-        
+
 
     }
 }

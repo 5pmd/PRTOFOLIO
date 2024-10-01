@@ -10,22 +10,23 @@ namespace LiquidMixerApp.Model.SpeedGenerator
     public class SlowSpeedGenerator : ISpeedGenerator
     {
         private readonly int _speed = 50;
-        private  CancellationTokenSource? _cancellationTokenSource;
+        private CancellationTokenSource? _cancellationTokenSource;
 
         public event Action<int>? OnSpeedGenerated;
 
         public async Task GenerateSpeedAsync(CancellationToken cancellation)
         {
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellation);
+
             _cancellationTokenSource.Token.ThrowIfCancellationRequested();
-            await Task.FromResult(_speed);
+            await Task.Delay(500);
             OnSpeedGenerated?.Invoke(_speed);
+
         }
 
         public void Stop()
         {
             _cancellationTokenSource?.Cancel();
-            
         }
     }
 }

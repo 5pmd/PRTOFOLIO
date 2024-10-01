@@ -21,15 +21,18 @@ namespace LiquidMixerApp.ViewModel
 {
     public class MainWindowViewModel : INotifyPropertyChanged
     {
-        private readonly Liquid _liquidAToMix;
-        private readonly Liquid _liquidBToMix;
-        private readonly Liquid _liquidCToMix;
+        private readonly ILiquid _liquidAToMix;
+        private readonly ILiquid _liquidBToMix;
+        private readonly ILiquid _liquidCToMix;
+        private IEnumerable<ILiquid> _liquidsToMix;
 
-        private readonly Liquid _liquidAToAdd;
-        private readonly Liquid _liquidBToAdd;
-        private readonly Liquid _liquidCToAdd;
 
-        private readonly SpeedGeneratorFactory _speedGeneratorFactory;
+        private readonly ILiquid _liquidAToAdd;
+        private readonly ILiquid _liquidBToAdd;
+        private readonly ILiquid _liquidCToAdd;
+        private IEnumerable<ILiquid> _liquidsToAdd; 
+
+        private readonly ISpeedGeneratorFactory _speedGeneratorFactory;
         private readonly LiquidMixer _liquidMixer;
         private CancellationTokenSource _cancellationTokenSource;
 
@@ -47,22 +50,24 @@ namespace LiquidMixerApp.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(ILiquid firstLiquidToMix, ILiquid secondLiquidToMix, ILiquid thirdLiquidToMix,
+            ILiquid firstLiquidToAdd, ILiquid secondLiquidToAdd, ILiquid thirdLiquidToAdd,ISpeedGeneratorFactory speedGeneratorFactory)
         {
-            _liquidAToMix = new Liquid("Liquid A");
-            _liquidBToMix = new Liquid("Liquid B");
-            _liquidCToMix = new Liquid("Liquid C");
+            _liquidAToMix = firstLiquidToMix;
+            _liquidBToMix = secondLiquidToMix;
+            _liquidCToMix = thirdLiquidToMix;
+            _liquidsToMix = new[] { _liquidAToMix, _liquidBToMix, _liquidCToMix };
 
-            _liquidAToAdd = new Liquid("Liquid A");
-            _liquidBToAdd = new Liquid("Liquid B");
-            _liquidCToAdd = new Liquid("Liquid C");
-
+            _liquidAToAdd = firstLiquidToAdd;
+            _liquidBToAdd = secondLiquidToAdd;
+            _liquidCToAdd = thirdLiquidToAdd;
+            _liquidsToAdd = new[] {_liquidAToAdd, _liquidBToAdd, _liquidCToAdd };
 
             _inputLiquidToMixErrors = new Dictionary<string, string?>();
             _inputDurationErrors = new Dictionary<string, string?>();
             _inputLiquidToAddErrors = new Dictionary<string, string?>();
 
-            _speedGeneratorFactory = new SpeedGeneratorFactory();
+            _speedGeneratorFactory = speedGeneratorFactory;
             _liquidMixer = new LiquidMixer(new BasicMixer(), new LocalLiquidInventory(), new DelayTimeHandler());
             _cancellationTokenSource = new CancellationTokenSource();
 
@@ -82,7 +87,7 @@ namespace LiquidMixerApp.ViewModel
         private async Task AddLiquidsToInventory()
         {
             AddCommand.RaiseCanExecuteChanged();
-            await _liquidMixer.AddLiquidsToInventory(_liquidAToAdd, _liquidBToAdd, _liquidCToAdd);
+            await _liquidMixer.AddLiquidsToInventory(_liquidsToAdd);
 
 
         }
@@ -104,7 +109,7 @@ namespace LiquidMixerApp.ViewModel
         }
 
 
-
+       //MIX
         private string? _liquidAVolumeToMix = null;
         [RegularExpression(@"^\d+$", ErrorMessage = "Only digits are allowed.")]
         [Required(ErrorMessage = "Liquid A volume is required!")]
@@ -210,7 +215,7 @@ namespace LiquidMixerApp.ViewModel
         {
            return int.TryParse(_duration, out int duration) ? duration : 0;
         }
-        // Methods
+       
         private async Task StartAsync()
         {
 
@@ -261,7 +266,7 @@ namespace LiquidMixerApp.ViewModel
 
 
 
-        private void SetLiquidVolumeToMix(string? value, Liquid liquid, string propertyName)
+        private void SetLiquidVolumeToMix(string? value, ILiquid liquid, string propertyName)
         {
 
             ValidateProperty(value, propertyName, _inputLiquidToMixErrors);
@@ -286,9 +291,9 @@ namespace LiquidMixerApp.ViewModel
 
 
 
-        private void SetLiquidVolumeToAdd(string? value, Liquid liquid, string propertyName)
+        private void SetLiquidVolumeToAdd(string? value, ILiquid liquid, string propertyName)
         {
-            if (value == liquid.Volume.ToString()) return;
+           
             ValidateProperty(value, propertyName, _inputLiquidToAddErrors);
 
             if (int.TryParse(value, out var volume))
