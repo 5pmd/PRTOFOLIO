@@ -18,7 +18,7 @@ namespace LiquidMixerApp.Model.Inventory
 
         public async Task AddAsync(IEnumerable<ILiquid> liquids)
         {
-            await _semaphoreSlim.WaitAsync(); 
+            await _semaphoreSlim.WaitAsync();
             try
             {
                 foreach (var liquidToAdd in liquids)
@@ -38,7 +38,7 @@ namespace LiquidMixerApp.Model.Inventory
             }
             finally
             {
-                _semaphoreSlim.Release(); 
+                _semaphoreSlim.Release();
             }
         }
 
@@ -46,7 +46,7 @@ namespace LiquidMixerApp.Model.Inventory
         {
             cancellation.ThrowIfCancellationRequested();
 
-            await _semaphoreSlim.WaitAsync(cancellation); 
+            await _semaphoreSlim.WaitAsync(cancellation);
             try
             {
                 foreach (var liquid in liquids)
@@ -71,13 +71,13 @@ namespace LiquidMixerApp.Model.Inventory
             }
             finally
             {
-                _semaphoreSlim.Release(); 
+                _semaphoreSlim.Release();
             }
         }
 
         private async Task<bool> IsAvailableAsync(ILiquid liquid, CancellationToken cancellation)
         {
-            LoggerService.Instance.Log($"Check if {liquid.Name} {liquid.Volume}mL available in Inventory");
+            LoggerService.Instance.Log($"Checking... Does {liquid.Name} {liquid.Volume}mL available in Inventory");
             if (liquid.Volume == 0) return true;
 
             var availableVolume = await GetVolumeAsync(liquid, cancellation);
@@ -94,7 +94,5 @@ namespace LiquidMixerApp.Model.Inventory
 
             throw new ArgumentException($"{liquid.Name} doesn't exist in inventory");
         }
-
-      
     }
 }

@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,10 +31,10 @@ namespace LiquidMixerApp.ViewModel
         private readonly ILiquid _liquidAToAdd;
         private readonly ILiquid _liquidBToAdd;
         private readonly ILiquid _liquidCToAdd;
-        private IEnumerable<ILiquid> _liquidsToAdd; 
+        private IEnumerable<ILiquid> _liquidsToAdd;
 
         private readonly ISpeedGeneratorFactory _speedGeneratorFactory;
-        private readonly LiquidMixer _liquidMixer;
+        private readonly ILiquidMixer _liquidMixer;
         private CancellationTokenSource _cancellationTokenSource;
 
         private string? _duration = null;
@@ -50,25 +51,24 @@ namespace LiquidMixerApp.ViewModel
         public event PropertyChangedEventHandler? PropertyChanged;
         public event EventHandler<DataErrorsChangedEventArgs>? ErrorsChanged;
 
-        public MainWindowViewModel(ILiquid firstLiquidToMix, ILiquid secondLiquidToMix, ILiquid thirdLiquidToMix,
-            ILiquid firstLiquidToAdd, ILiquid secondLiquidToAdd, ILiquid thirdLiquidToAdd,ISpeedGeneratorFactory speedGeneratorFactory)
+        public MainWindowViewModel((ILiquid, ILiquid, ILiquid) liquidsToMix, (ILiquid, ILiquid, ILiquid) liquidsToAdd, ISpeedGeneratorFactory speedGeneratorFactory, ILiquidMixer liquidMixer)
         {
-            _liquidAToMix = firstLiquidToMix;
-            _liquidBToMix = secondLiquidToMix;
-            _liquidCToMix = thirdLiquidToMix;
+            _liquidAToMix = liquidsToMix.Item1;          
+            _liquidBToMix = liquidsToMix.Item2;
+            _liquidCToMix = liquidsToMix.Item3;
             _liquidsToMix = new[] { _liquidAToMix, _liquidBToMix, _liquidCToMix };
 
-            _liquidAToAdd = firstLiquidToAdd;
-            _liquidBToAdd = secondLiquidToAdd;
-            _liquidCToAdd = thirdLiquidToAdd;
-            _liquidsToAdd = new[] {_liquidAToAdd, _liquidBToAdd, _liquidCToAdd };
+            _liquidAToAdd = liquidsToAdd.Item1;
+            _liquidBToAdd = liquidsToAdd.Item2;
+            _liquidCToAdd = liquidsToAdd.Item3;
+            _liquidsToAdd = new[] { _liquidAToAdd, _liquidBToAdd, _liquidCToAdd };
 
             _inputLiquidToMixErrors = new Dictionary<string, string?>();
             _inputDurationErrors = new Dictionary<string, string?>();
             _inputLiquidToAddErrors = new Dictionary<string, string?>();
 
             _speedGeneratorFactory = speedGeneratorFactory;
-            _liquidMixer = new LiquidMixer(new BasicMixer(), new LocalLiquidInventory(), new DelayTimeHandler());
+            _liquidMixer = liquidMixer;
             _cancellationTokenSource = new CancellationTokenSource();
 
             LogEntries = new ObservableCollection<string>();
@@ -82,16 +82,12 @@ namespace LiquidMixerApp.ViewModel
         private bool CanAddLiquidsToInventory()
         {
             return !_inputLiquidToAddErrors.Any();
-
         }
         private async Task AddLiquidsToInventory()
         {
             AddCommand.RaiseCanExecuteChanged();
             await _liquidMixer.AddLiquidsToInventory(_liquidsToAdd);
-
-
         }
-
 
         public Array SpeedsMode => Enum.GetValues(typeof(BasicSpeedsMode));
         private BasicSpeedsMode _selectedSpeedMode;
@@ -109,8 +105,13 @@ namespace LiquidMixerApp.ViewModel
         }
 
 
-       //MIX
+        //MIX
+        public ILiquid LiquidAToMix => _liquidAToMix;  
+        public ILiquid LiquidBToMix => _liquidBToMix;
+        public ILiquid LiquidCToMix => _liquidCToMix;
+
         private string? _liquidAVolumeToMix = null;
+
         [RegularExpression(@"^\d+$", ErrorMessage = "Only digits are allowed.")]
         [Required(ErrorMessage = "Liquid A volume is required!")]
         public string? LiquidAVolumeToMix
@@ -124,7 +125,9 @@ namespace LiquidMixerApp.ViewModel
                 ValidateTotalLiquidsVolumeToMix();
             }
         }
+
         private string? _liquidBVolumeToMix = null;
+
         [RegularExpression(@"^\d+$", ErrorMessage = "Only digits are allowed.")]
         [Required(ErrorMessage = "Liquid B volume is required!")]
         public string? LiquidBVolumeToMix
@@ -137,7 +140,9 @@ namespace LiquidMixerApp.ViewModel
                 ValidateTotalLiquidsVolumeToMix();
             }
         }
+
         private string? _liquidCVolumeToMix = null;
+
         [RegularExpression(@"^\d+$", ErrorMessage = "Only digits are allowed.")]
         [Required(ErrorMessage = "Liquid C volume is required!")]
         public string? LiquidCVolumeToMix
@@ -167,12 +172,16 @@ namespace LiquidMixerApp.ViewModel
                 OnPropertyChanged(nameof(LatestDurationError));
                 if (int.TryParse(Duration, out var duration))
                 {
-                    
+
                 }
             }
         }
-      
-        //INVENT
+
+        //INVENTORY
+        public ILiquid LiquidAToAdd => _liquidAToAdd;
+        public ILiquid LiquidBToAdd => _liquidBToAdd;
+        public ILiquid LiquidCToAdd => _liquidCToAdd;
+
         [RegularExpression(@"^\d+$", ErrorMessage = "Only digits are allowed.")]
         [Required(ErrorMessage = "Liquid A volume is required!")]
         [Range(0, 100, ErrorMessage = "Liquid A Volume must be between 0 and 100!")]
@@ -182,6 +191,7 @@ namespace LiquidMixerApp.ViewModel
             set => SetLiquidVolumeToAdd(value, _liquidAToAdd, nameof(LiquidAVolumeToAdd));
 
         }
+
         [RegularExpression(@"^\d+$", ErrorMessage = "Only digits are allowed.")]
         [Required(ErrorMessage = "Liquid B volume is required!")]
         [Range(0, 100, ErrorMessage = "Liquid B Volume must be between 0 and 100!")]
@@ -190,6 +200,7 @@ namespace LiquidMixerApp.ViewModel
             get => _liquidBToAdd.Volume.ToString();
             set => SetLiquidVolumeToAdd(value, _liquidBToAdd, nameof(LiquidBVolumeToAdd));
         }
+
         [RegularExpression(@"^\d+$", ErrorMessage = "Only digits are allowed.")]
         [Required(ErrorMessage = "Liquid C volume is required!")]
         [Range(0, 100, ErrorMessage = "Liquid C Volume must be between 0 and 100!")]
@@ -200,22 +211,18 @@ namespace LiquidMixerApp.ViewModel
         }
 
 
-
         [Range(0, 100, ErrorMessage = "Total Volume to mix must <= 100")]
         public int TotalLiquidsVolumeToMix => _liquidAToMix.Volume + _liquidBToMix.Volume + _liquidCToMix.Volume;
-
-
 
         public string? LatestLiquidsToMixError => _inputLiquidToMixErrors.LastOrDefault().Value;
         public string? LatestLiquidsToAddError => _inputLiquidToAddErrors.LastOrDefault().Value;
         public string? LatestDurationError => _inputDurationErrors.LastOrDefault().Value;
 
-
         private int GetDuration()
         {
-           return int.TryParse(_duration, out int duration) ? duration : 0;
+            return int.TryParse(_duration, out int duration) ? duration : 0;
         }
-       
+
         private async Task StartAsync()
         {
 
@@ -223,16 +230,15 @@ namespace LiquidMixerApp.ViewModel
             _canStop = true;
             var liquidsToMix = new[] { _liquidAToMix, _liquidBToMix, _liquidCToMix };
             var duration = GetDuration();
-            
-            StopCommand.RaiseCanExecuteChanged();
 
+            StopCommand.RaiseCanExecuteChanged();
 
             var speedGenerator = _speedGeneratorFactory.GetSpeedGenerator(SelectedSpeedMode);
 
 
             try
             {
-                LogEntries.Clear();                          
+                LogEntries.Clear();
                 await _liquidMixer.StartAsync(liquidsToMix, duration, speedGenerator, _cancellationTokenSource.Token);
                 LoggerService.Instance.Log("Mixing Completed");
             }
@@ -252,25 +258,19 @@ namespace LiquidMixerApp.ViewModel
         private bool CanStart()
         {
             return LatestDurationError is null && LatestLiquidsToMixError is null;
-
         }
 
         private void Stop()
         {
             MessageBox.Show("Stop");
             _cancellationTokenSource.Cancel();
-
-
         }
         private bool CanStop() => _canStop;
-
-
 
         private void SetLiquidVolumeToMix(string? value, ILiquid liquid, string propertyName)
         {
 
             ValidateProperty(value, propertyName, _inputLiquidToMixErrors);
-
 
             if (int.TryParse(value, out var volume))
             {
@@ -289,11 +289,9 @@ namespace LiquidMixerApp.ViewModel
             OnPropertyChanged(nameof(LatestLiquidsToMixError));
         }
 
-
-
         private void SetLiquidVolumeToAdd(string? value, ILiquid liquid, string propertyName)
         {
-           
+
             ValidateProperty(value, propertyName, _inputLiquidToAddErrors);
 
             if (int.TryParse(value, out var volume))
@@ -301,21 +299,18 @@ namespace LiquidMixerApp.ViewModel
                 liquid.Volume = volume;
             }
 
-
             OnPropertyChanged(propertyName);
             OnPropertyChanged(nameof(LatestLiquidsToAddError));
             AddCommand.RaiseCanExecuteChanged();
 
         }
 
-
-
         private void ValidateProperty(object? propertyValue, string propertyName, Dictionary<string, string?> result)
         {
             result.Remove(propertyName);
             var validationContext = new ValidationContext(this) { MemberName = propertyName };
             var validationResult = new List<ValidationResult>();
-            Validator.TryValidateProperty(propertyValue, validationContext, validationResult);  
+            Validator.TryValidateProperty(propertyValue, validationContext, validationResult);
 
             if (validationResult.Any())
             {
@@ -327,11 +322,9 @@ namespace LiquidMixerApp.ViewModel
 
         private void AddLog(string message) => LogEntries.Add(message);
 
-
         protected virtual void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
-        protected virtual void OnErrorsChanged(string propertyName) =>
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
+       
     }
 }

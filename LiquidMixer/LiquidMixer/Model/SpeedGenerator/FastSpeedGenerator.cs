@@ -24,14 +24,11 @@ namespace LiquidMixerApp.Model.SpeedGenerator
             cancellation.ThrowIfCancellationRequested();
             await Task.Delay(500);
             OnSpeedGenerated?.Invoke(_speed);
-
-
         }
 
         public void Stop()
         {
             _cancellationTokenSource?.Cancel();
-
         }
     }
 }

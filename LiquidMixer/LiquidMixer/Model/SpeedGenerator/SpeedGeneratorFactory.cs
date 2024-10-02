@@ -10,7 +10,6 @@ namespace LiquidMixerApp.Model.SpeedGenerator
 {
     public class SpeedGeneratorFactory : ISpeedGeneratorFactory
     {
-
         public ISpeedGenerator GetSpeedGenerator(BasicSpeedsMode mode) => mode switch
         {
             BasicSpeedsMode.FAST => new FastSpeedGenerator(),
@@ -20,7 +19,6 @@ namespace LiquidMixerApp.Model.SpeedGenerator
             _ => throw new ArgumentException("Mode doesn't exist")
 
         };
-
 
     }
 }

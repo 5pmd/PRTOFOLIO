@@ -30,45 +30,55 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
-            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Grid.Column="1"/>
-            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Grid.Column="3"/>
+            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Grid.Column="2"/>
+            <Border BorderBrush="Black" BorderThickness="0,0,1,0" Grid.Column="4"/>
 
             <!--Liquid List-->
-            <StackPanel Grid.Column="0">
-                <Label Content="Liquid A (mL)" Margin="5" FontSize="20" FontWeight="Medium" />
-                <Label Content="Liquid B (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
-                <Label Content="Liquid C (mL)" Margin="5,5,5,0" FontSize="20" FontWeight="Medium"/>
+            <StackPanel Grid.Column="0" HorizontalAlignment="Left">
+                <Label Content="{Binding  LiquidAToMix.Name}" Margin="5" FontSize="20" FontWeight="Medium" />
+                <Label Content="{Binding  LiquidBToMix.Name}" Margin="5" FontSize="20" FontWeight="Medium"  />
+                <Label Content="{Binding  LiquidCToMix.Name}" Margin="5,5,5,0" FontSize="20" FontWeight="Medium"  />
                 
             </StackPanel>
+
+          
 
 
             <!--Liquid User Input Value-->
             <StackPanel Grid.Column="1">
-                <TextBox x:Name="tb_liquidA" Width="120" Margin="10,12,7,5" FontSize="20" Text="{Binding LiquidAVolumeToMix, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"/>
-                <TextBox x:Name="tb_liquidB" Width="120" Margin="10,12,7,5"  FontSize="20" Text="{Binding LiquidBVolumeToMix, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
-                <TextBox x:Name="tb_liquidC" Width="120" Margin="10,12,7,5"  FontSize="20" Text="{Binding LiquidCVolumeToMix, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"/>
-                <TextBlock Text="{Binding LatestLiquidsToMixError, Mode=OneWay}"  Height="80" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="WrapWithOverflow" />
+                <TextBox x:Name="tb_liquidA" Width="140" Margin="1,12,7,5" FontSize="20" Text="{Binding LiquidAVolumeToMix, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"/>
+                <TextBox x:Name="tb_liquidB" Width="140" Margin="1,12,7,5"  FontSize="20" Text="{Binding LiquidBVolumeToMix, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" />
+                <TextBox x:Name="tb_liquidC" Width="140" Margin="1,12,7,5"  FontSize="20" Text="{Binding LiquidCVolumeToMix, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"/>
+                <TextBlock Text="{Binding LatestLiquidsToMixError, Mode=OneWay}"  Height="70" Margin="10" FontWeight="Bold" Foreground="Red" TextWrapping="WrapWithOverflow" />
+            </StackPanel>
+            
+            <!--Volume unit-->
+            <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                <Label Content="mL" FontSize="20" FontWeight="Medium" Margin="5"/>
+                <Label Content="mL" FontSize="20" FontWeight="Medium" Margin="5"/>
+                <Label Content="mL" FontSize="20" FontWeight="Medium" Margin="5"/>
             </StackPanel>
 
             <!--Mode And Time Label-->
-            <StackPanel Grid.Column="2">
+            <StackPanel Grid.Column="3">
                 <Label Content="Mode" FontSize="15" FontWeight="Bold" Margin="10,30,10,30"/>
                 <Label Content="Time (ms)" FontSize="15" FontWeight="Bold" Margin="10,25,10,50"/>
             </StackPanel>
             
             <!--Mode and Time Value-->
-            <StackPanel Grid.Column="3">
+            <StackPanel Grid.Column="4">
                 <ComboBox ItemsSource="{Binding SpeedsMode}" SelectedItem="{Binding SelectedSpeedMode}" Margin="10,30,10,20" FontSize="20"/>
                 <TextBox Text="{Binding Duration, UpdateSourceTrigger=PropertyChanged , Mode=OneWayToSource}" Margin="10,30,10,0" FontSize="20"/>
                 <TextBlock Text="{Binding LatestDurationError , UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" MaxHeight="70" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="Wrap" />
             </StackPanel>
             
             <!--Run And Abort Button-->
-            <StackPanel Grid.Column="4">
+            <StackPanel Grid.Column="5">
                 <Button Content="START" Command="{Binding StartCommand}" Width="150" Height="50" Margin="10,20,10,20"/>
                 <Button Content="ABORT" Command="{Binding StopCommand}" Width="150" Height="50" Margin="10,20,10,20"/>
             </StackPanel>
@@ -103,27 +113,34 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="1*"/>
                     <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
 
                 <!--Liquid List-->
                 <StackPanel Grid.Column="0">
-                    <Label Content="Liquid A (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
-                    <Label Content="Liquid B (mL)" Margin="5" FontSize="20" FontWeight="Medium"/>
-                    <Label Content="Liquid C (mL)" Margin="5,5,5,0" FontSize="20" FontWeight="Medium"/>
+                    <Label Content="{Binding  LiquidAToAdd.Name}" Margin="5" FontSize="20" FontWeight="Medium"/>
+                    <Label Content="{Binding  LiquidBToAdd.Name}" Margin="5" FontSize="20" FontWeight="Medium"/>
+                    <Label Content="{Binding  LiquidCToAdd.Name}" Margin="5,5,5,0" FontSize="20" FontWeight="Medium"/>
                     
                 </StackPanel>
 
                 <!--Liquid User Input Value-->
                 <StackPanel Grid.Column="1">
-                    <TextBox  Text="{Binding LiquidAVolumeToAdd, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Width="110" Margin="10,12,10,5"  FontSize="20"/>
-                    <TextBox Text="{Binding LiquidBVolumeToAdd, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Width="110" Margin="10,12,10,5"  FontSize="20"/>
-                    <TextBox Text="{Binding LiquidCVolumeToAdd, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Width="110" Margin="10,12,10,5"  FontSize="20"/>
-                    <TextBlock Text="{Binding LatestLiquidsToAddError, Mode=OneWay}" Height="80" Margin="5" FontWeight="Bold" Foreground="Red" TextWrapping="WrapWithOverflow" />
+                    <TextBox  Text="{Binding LiquidAVolumeToAdd, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Width="100" Margin="10,12,10,5"  FontSize="20"/>
+                    <TextBox Text="{Binding LiquidBVolumeToAdd, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Width="100" Margin="10,12,10,5"  FontSize="20"/>
+                    <TextBox Text="{Binding LiquidCVolumeToAdd, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Width="100" Margin="10,12,10,5"  FontSize="20"/>
+                    <TextBlock Text="{Binding LatestLiquidsToAddError, Mode=OneWay}" Height="80" Margin="10,5,5,5" FontWeight="Bold" Foreground="Red" TextWrapping="WrapWithOverflow" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" HorizontalAlignment="Left">
+                    <Label Content="mL" FontSize="19" FontWeight="Medium" Margin="0,5,0,5"/>
+                    <Label Content="mL" FontSize="19" FontWeight="Medium" Margin="0,5,0,5"/>
+                    <Label Content="mL" FontSize="19" FontWeight="Medium"  Margin="0,5,0,5"/>
                 </StackPanel>
                 
                 <!--Update Button-->
-                <Button Command="{Binding AddCommand}" Grid.Column="2" Content="ADD" Width="100" Height="70" VerticalAlignment="Top" Margin="0,35,0,0"/>
+                <Button Command="{Binding AddCommand}" Grid.Column="3" Content="ADD" Width="100" Height="70" VerticalAlignment="Top" Margin="0,35,0,0"/>
 
 
                 </Grid>

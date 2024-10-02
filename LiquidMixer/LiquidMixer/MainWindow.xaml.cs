@@ -1,5 +1,8 @@
 ﻿using LiquidMixerApp.Model;
+using LiquidMixerApp.Model.Inventory;
+using LiquidMixerApp.Model.Mixer;
 using LiquidMixerApp.Model.SpeedGenerator;
+using LiquidMixerApp.Model.TimeHandler;
 using LiquidMixerApp.ViewModel;
 using System.Text;
 using System.Windows;
@@ -26,11 +29,19 @@ namespace LiquidMixerApp
             var liquidAToMix = new Liquid("Liquid A");
             var liquidBToMix = new Liquid("Liquid B");
             var liquidCToMix = new Liquid("Liquid C");
+            var liquidsToMix = (liquidAToMix, liquidBToMix, liquidCToMix);
+
             var liquidAToAdd = new Liquid("Liquid A");
             var liquidBToAdd = new Liquid("Liquid B");
             var liquidCToAdd = new Liquid("Liquid C");
+            var liquidsToAdd = (liquidAToAdd, liquidBToAdd, liquidCToAdd);
+
             var speedGeneratorFactory = new SpeedGeneratorFactory();
-            this.DataContext = new MainWindowViewModel(liquidAToMix, liquidBToMix, liquidCToMix, liquidAToAdd, liquidBToAdd, liquidCToAdd, speedGeneratorFactory);
+            var mixer = new BasicMixer();
+            var liquidInventory = new LocalLiquidInventory();
+            var timeHandler = new DelayTimeHandler();
+            var liquidMixer = new LiquidMixer(mixer,liquidInventory,timeHandler);
+            this.DataContext = new MainWindowViewModel(liquidsToMix, liquidsToAdd, speedGeneratorFactory, liquidMixer);
         }
     }
 }

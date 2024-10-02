@@ -12,6 +12,7 @@ namespace LiquidMixerApp.Services.Command
 
         private readonly Action<object?> _execute;
         private readonly Func<object?, bool> _canExecute;
+
         public event EventHandler? CanExecuteChanged;
 
         public RelayCommand(Action<object?> execute, Func<object?, bool> canExecute)
@@ -33,7 +34,6 @@ namespace LiquidMixerApp.Services.Command
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
-
 
     }
 }

@@ -11,9 +11,11 @@ namespace LiquidMixerApp.Services.Command
 {
     public class AsyncRelayCommand : ICommand
     {
-        private readonly Func<object?, bool> _canExecuted;      
+        private readonly Func<object?, bool> _canExecuted;
         private readonly Func<object?, Task> _exeCute;
         private bool _isExecuting = false;
+
+        public event EventHandler? CanExecuteChanged;
 
         public AsyncRelayCommand(Func<object?, Task> execute, Func<object?, bool> canExecuted)
         {
@@ -21,7 +23,6 @@ namespace LiquidMixerApp.Services.Command
             _canExecuted = canExecuted;
         }
 
-        public event EventHandler? CanExecuteChanged;
 
         public bool CanExecute(object? parameter)
         {

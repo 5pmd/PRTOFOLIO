@@ -11,10 +11,8 @@ namespace LiquidMixerApp.Model.SpeedGenerator
 {
     public interface ISpeedGenerator
     {
-
         event Action<int>? OnSpeedGenerated;
         Task GenerateSpeedAsync(CancellationToken cancellation);
         void Stop();
-
     }
 }

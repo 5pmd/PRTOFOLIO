@@ -11,19 +11,19 @@ namespace LiquidMixerApp.Model.Mixer
 {
     public class BasicMixer : IMixer
     {
-
         private int _speed;
+
         public int Speed => _speed;
 
         public void SetSpeed(int speed)
         {
             if (speed < 0) throw new ArgumentException("Speed must positive int");
-            _speed = speed;           
+            _speed = speed;
             LoggerService.Instance.Log($"Set Speed for {speed} rpm");
         }
 
         public void Start()
-        {            
+        {
             LoggerService.Instance.Log($"Start Mixer with speed {_speed}rpm");
         }
 

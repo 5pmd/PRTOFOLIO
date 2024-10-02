@@ -1,10 +1,10 @@
 ﻿namespace LiquidMixerApp.Model.Mixer
 {
     public interface IMixer
-    {
-        void Start();
-        int Speed { get;  }
+    {      
+        void Start();    
         void Stop();
-        void SetSpeed(int speed);
+        int Speed { get; }
+        void SetSpeed(int speed);      
     }
 }

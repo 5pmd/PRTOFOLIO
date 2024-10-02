@@ -17,7 +17,6 @@ namespace LiquidMixerApp.Model.Logger
         public event Action<string>? OnLogGenerated;
         public void Log(string message) => OnLogGenerated?.Invoke(message);
 
-
     }
 
 }
